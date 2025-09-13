@@ -15,3 +15,20 @@ if (isset($_POST['pedido_id'])) {
 header("Location: gestion_pedidos.php");
 exit;
 ?>
+
+<?php
+include("../includes/conexion.php");
+
+if(isset($_GET['id'])) {
+    $id = intval($_GET['id']);
+    
+    $sql = "DELETE FROM pedidos WHERE id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $id);
+    
+    $response = ['success' => $stmt->execute()];
+    echo json_encode($response);
+} else {
+    echo json_encode(['success' => false]);
+}
+?>
